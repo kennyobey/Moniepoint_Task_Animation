@@ -333,9 +333,9 @@ class _SamplePageState extends State<SamplePage>
                                   const SizedBox(),
                                   const CustomText(
                                     weight: FontWeight.w400,
-                                    size: 10,
+                                    size: 18,
                                     color: AppColors.black,
-                                    title: "offers",
+                                    title: "GladKova St., 25",
                                   ),
                                   Align(
                                     alignment: Alignment.centerRight,
@@ -393,6 +393,7 @@ class _SamplePageState extends State<SamplePage>
                                 width: MediaQuery.of(context).size.width -
                                     260, // Adjust width as needed
                                 child: Container(
+                                  padding: const EdgeInsets.only(left: 10),
                                   decoration: BoxDecoration(
                                     color: AppColors.stackButtonColor
                                         .withOpacity(0.7),
@@ -403,12 +404,11 @@ class _SamplePageState extends State<SamplePage>
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const SizedBox(),
                                       const CustomText(
                                         weight: FontWeight.w400,
-                                        size: 10,
+                                        size: 18,
                                         color: AppColors.black,
-                                        title: "offers",
+                                        title: "Gubina St,. 11",
                                       ),
                                       Align(
                                         alignment: Alignment.centerRight,
@@ -469,6 +469,7 @@ class _SamplePageState extends State<SamplePage>
                                     width: MediaQuery.of(context).size.width -
                                         260, //// Adjust width as needed
                                     child: Container(
+                                      padding: EdgeInsets.only(left: 10),
                                       decoration: BoxDecoration(
                                         color: AppColors.stackButtonColor
                                             .withOpacity(0.7),
@@ -479,12 +480,11 @@ class _SamplePageState extends State<SamplePage>
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const SizedBox(),
                                           const CustomText(
                                             weight: FontWeight.w400,
-                                            size: 10,
+                                            size: 16,
                                             color: AppColors.black,
-                                            title: "offers",
+                                            title: "Trevoleva St., 43",
                                           ),
                                           Align(
                                             alignment: Alignment.centerRight,
@@ -537,6 +537,7 @@ class _SamplePageState extends State<SamplePage>
                                   width: MediaQuery.of(context).size.width -
                                       260, //// Adjust width as needed
                                   child: Container(
+                                    padding: const EdgeInsets.only(left: 10),
                                     decoration: BoxDecoration(
                                       color: AppColors.stackButtonColor
                                           .withOpacity(0.7),
@@ -547,12 +548,11 @@ class _SamplePageState extends State<SamplePage>
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        const SizedBox(),
                                         const CustomText(
                                           weight: FontWeight.w400,
-                                          size: 10,
+                                          size: 16,
                                           color: AppColors.black,
-                                          title: "offers",
+                                          title: "Sedova St., 22",
                                         ),
                                         Align(
                                           alignment: Alignment.centerRight,

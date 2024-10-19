@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'screens/bottm_nav_bar.dart';
-import 'screens/home.dart';
+
 
 void main() {
   runApp(const MyApp());
