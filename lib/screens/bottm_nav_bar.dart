@@ -57,32 +57,31 @@ class _BottmNavBarState extends State<BottmNavBar> {
               onTap: _onItemTapped,
               items: List.generate(5, (index) {
                 return BottomNavigationBarItem(
-                  icon: _selectedIndex == index
-                      ? Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 14, vertical: 14),
-                          decoration: const BoxDecoration(
-                            color: AppColors
-                                .orange, // Black container for selected icon
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            _getIconForIndex(index),
-                            color: Colors.white,
-                            size: 18,
-                          ),
-                        )
-                      : Container(
-                          padding: const EdgeInsets.all(13),
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppColors.lightBlack),
-                          child: Icon(
-                            _getIconForIndex(index),
-                            color: AppColors.white,
-                            size: 18,
-                          ),
-                        ),
+                  icon: AnimatedContainer(
+                    duration: const Duration(
+                        milliseconds: 1500), // Duration of the animation
+                    curve: Curves.easeInOut, // Animation curve
+                    padding: _selectedIndex == index
+                        ? const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical:
+                                14) // Increased padding for selected state
+                        : const EdgeInsets.all(
+                            13), // Padding for unselected state
+                    decoration: BoxDecoration(
+                      color: _selectedIndex == index
+                          ? AppColors
+                              .orange // Background color for selected icon
+                          : AppColors
+                              .lightBlack, // Background color for unselected icon
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      _getIconForIndex(index),
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  ),
                   label: '',
                 );
               }),

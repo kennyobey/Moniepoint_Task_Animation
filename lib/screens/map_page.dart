@@ -17,6 +17,7 @@ class _MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
   late Animation<double> _iconOpacityAnimation;
   late Animation<double> _opacityAnimation;
   late Animation<double> _scaleAnimation;
+  late bool _showDelayedContainer = true; // For 5-second delayed animation
 
   @override
   void initState() {
@@ -24,7 +25,7 @@ class _MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
 
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 4), // 3 seconds for other animations
     );
 
     _widthAnimation = TweenSequence<double>([
@@ -58,21 +59,31 @@ class _MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
       ),
     );
 
-    // Initialize _opacityAnimation
+    // Initialize _opacityAnimation for other widgets
     _opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _animationController,
         curve: const Interval(0.0, 1.0), // Customize this curve as needed
       ),
     );
-    // Scale animation from 0.5 (small) to 1.0 (full size)
+
+    // Scale animation from 0.5 (small) to 1.0 (full size) for other widgets
     _scaleAnimation = Tween<double>(begin: 0.5, end: 1.0).animate(
       CurvedAnimation(
         parent: _animationController,
         curve: Curves.easeOut,
       ),
     );
+
+    // Start animation for other widgets after 3 seconds
     _animationController.forward();
+
+    // Add a 5-second delay specifically for the _buildAnimatedContainer
+    Future.delayed(const Duration(seconds: 5), () {
+      setState(() {
+        _showDelayedContainer = true; // This will trigger the delayed container
+      });
+    });
   }
 
   @override
@@ -230,54 +241,55 @@ class _MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
     );
   }
 
-  // Animated container with text that fades in and icon that shows when resting
   Widget _buildAnimatedContainer() {
     return AnimatedBuilder(
       animation: _widthAnimation,
       builder: (context, child) {
-        return Container(
-          width: _widthAnimation
-              .value, // Animate width from 0 to 100, then back to 50
-          height: 50, // Fixed height
-          decoration: const BoxDecoration(
-            color: Colors.orange,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15),
-              topRight: Radius.circular(15),
-              bottomRight: Radius.circular(15),
+        // Render the container only after the 5-second delay
+        if (_showDelayedContainer) {
+          return Container(
+            width: _widthAnimation.value,
+            height: 50,
+            decoration: const BoxDecoration(
+              color: Colors.orange,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+                bottomRight: Radius.circular(15),
+              ),
             ),
-          ),
-          child: Center(
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // Fade in/out the text during rest at 100, fade out before shrinking starts
-                _widthAnimation.value > 50
-                    ? FadeTransition(
-                        opacity: _textOpacityAnimation,
-                        child: const Text(
-                          "10.3mnP",
-                          style: TextStyle(
-                            color: AppColors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16, // Fixed size, no resizing
-                          ),
-                        ),
-                      )
-                    :
-                    // Fade in the icon at resting width of 50
+            child: Center(
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  if (_widthAnimation.value == 100)
                     FadeTransition(
-                        opacity: _iconOpacityAnimation,
-                        child: const Icon(
-                          Icons.houseboat,
+                      opacity: _textOpacityAnimation,
+                      child: const Text(
+                        "10.3mnP",
+                        style: TextStyle(
                           color: AppColors.white,
-                          size: 20, // Icon size at resting state
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14, // Fixed size, no resizing
                         ),
                       ),
-              ],
+                    ),
+                  if (_widthAnimation.value <= 50)
+                    FadeTransition(
+                      opacity: _iconOpacityAnimation,
+                      child: const Icon(
+                        Icons.houseboat,
+                        color: AppColors.white,
+                        size: 20, // Icon size at resting state
+                      ),
+                    ),
+                ],
+              ),
             ),
-          ),
-        );
+          );
+        } else {
+          return const SizedBox.shrink(); // Hide the container before the delay
+        }
       },
     );
   }
@@ -312,9 +324,9 @@ class _MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
           value: 2,
           child: Row(
             children: [
-              Icon(Icons.delete_outline, color: Colors.grey[600]),
+              Icon(Icons.home_max_outlined, color: Colors.grey[600]),
               const SizedBox(width: 10),
-              Text("Infrastructure", style: TextStyle(color: Colors.grey[600])),
+              Text("Homes", style: TextStyle(color: Colors.grey[600])),
             ],
           ),
         ),
@@ -322,10 +334,9 @@ class _MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
           value: 3,
           child: Row(
             children: [
-              Icon(Icons.layers_outlined, color: Colors.grey[600]),
+              Icon(Icons.map_outlined, color: Colors.grey[600]),
               const SizedBox(width: 10),
-              Text("Without any layer",
-                  style: TextStyle(color: Colors.grey[600])),
+              Text("On Map", style: TextStyle(color: Colors.grey[600])),
             ],
           ),
         ),
